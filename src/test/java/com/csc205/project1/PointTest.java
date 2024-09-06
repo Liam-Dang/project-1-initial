@@ -1,91 +1,81 @@
+// Write PointTest for Point.java class including common egde cases
+
 package com.csc205.project1;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PointTest {
 
     @Test
     void setPoint() {
-
-        // Setup
-        double expectedX = 5;
-        double expectedY = 5;
-        Point point = new Point(expectedX, expectedY);
-
-        // Exercise
-        double x = point.getX();
-        double y = point.getY();
-
-        // Assert
-        assertEquals(expectedX, x);
-        assertEquals(expectedY, y);
+        Point point = new Point(0, 0);
+        point.setPoint(5, 5);
+        assertEquals(5, point.getX());
+        assertEquals(5, point.getY());
     }
 
     @Test
     void shiftX() {
-
-        // Setup
-        double expectedX = 6;
         Point point = new Point(5, 5);
-
-        // Exercise
         point.shiftX(1);
-        double x = point.getX();
-
-        // Assert
-        assertEquals(expectedX, x);
-
+        assertEquals(6, point.getX());
     }
 
     @Test
     void shiftY() {
-
-        // Setup
-        double expectedY = 6;
         Point point = new Point(5, 5);
-
-        // Exercise
         point.shiftY(1);
-        double y = point.getY();
-
-        // Assert
-        assertEquals(expectedY, y);
+        assertEquals(6, point.getY());
     }
 
     @Test
     void distance() {
-
-        // Setup
-        double expectedDistance = 5;
         Point point1 = new Point(0, 0);
-        Point point2 = new Point(3,4);
-
-        // Exercise
-
-        double distance = point1.distance(point2);
-
-        // Assert
-        assertEquals(expectedDistance, distance);
+        Point point2 = new Point(3, 4);
+        assertEquals(5, point1.distance(point2));
     }
 
     @Test
     void rotate() {
-
-        // Setup
-        double expectedX = -5;
-        double expectedY = 5;
         Point point = new Point(5, 5);
-
-        // Exercise
         point.rotate(Math.PI / 2.0);
-        double x = point.getX();
-        double y = point.getY();
+        assertEquals(-5, point.getX(), 1e-9);
+        assertEquals(5, point.getY(), 1e-9);
+    }
 
-        // Assert
-        assertEquals(expectedX, x);
-        assertEquals(expectedY, y);
+    @Test
+    void testNegativeCoordinates() {
+        Point point = new Point(-5, -5);
+        assertEquals(-5, point.getX());
+        assertEquals(-5, point.getY());
+    }
+
+    @Test
+    void testZeroCoordinates() {
+        Point point = new Point(0, 0);
+        assertEquals(0, point.getX());
+        assertEquals(0, point.getY());
+    }
+
+    @Test
+    void testLargeCoordinates() {
+        Point point = new Point(1e9, 1e9);
+        assertEquals(1e9, point.getX());
+        assertEquals(1e9, point.getY());
+    }
+
+    @Test
+    void testRotateEdgeCase() {
+        Point point = new Point(1, 0);
+        point.rotate(Math.PI);
+        assertEquals(-1, point.getX(), 1e-9);
+        assertEquals(0, point.getY(), 1e-9);
+    }
+
+    @Test
+    void testDistanceToSelf() {
+        Point point = new Point(3, 4);
+        assertEquals(0, point.distance(point));
     }
 }
